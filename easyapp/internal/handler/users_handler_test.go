@@ -48,6 +48,13 @@ func Test_UsersHandler_Search(t *testing.T) {
 			expectedStatusCode: http.StatusOK,
 			expectedBody:       `{"users":[{"id":1,"name":"nob","age":13}]}`,
 		},
+		{
+			name:               "invalid request",
+			requestParam:       map[string]string{"name": ""},
+			setupMock:          func(mock *MockUsersUsecase) {},
+			expectedStatusCode: http.StatusBadRequest,
+			expectedBody:       "",
+		},
 	}
 
 	for _, testcase := range tests {
