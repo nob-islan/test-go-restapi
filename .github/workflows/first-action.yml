@@ -57,7 +57,6 @@ jobs:
     steps:
       - name: inspect
         run: |
-          curl -v http://192.168.151.24:80/v2/
           docker info | grep -A 5 'Insecure Registries'
       - name: Log in to Docker Hub
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
