@@ -59,7 +59,7 @@ jobs:
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
           registry: nob-harbor.ddo.jp
-          username: 'robot\$nobo'
+          username: 'robot$nobo'
           password: 'cqv83xeVjBKo9kdgk36VL0cxeVtkcrzM' #TODO secretに格納
       - name: Download go module bin
         uses: actions/download-artifact@v4
