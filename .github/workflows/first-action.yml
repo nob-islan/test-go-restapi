@@ -62,6 +62,10 @@ jobs:
       - name: inspect
         run: |
           docker info | grep -A 5 'Insecure Registries'
+      - name: Check connectivity to registry
+        run: |
+          curl -v http://192.168.151.24:80/v2/ || true
+          ping -c 4 192.168.151.24 || true
       - name: Log in to Docker Hub
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
