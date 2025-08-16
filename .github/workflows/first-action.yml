@@ -26,7 +26,7 @@ jobs:
           path: ${{ env.module }}/coverage.html
   build:
     name: build
-    # needs: test
+    needs: test
     runs-on: ubuntu-latest
     env:
       module: easyapp
