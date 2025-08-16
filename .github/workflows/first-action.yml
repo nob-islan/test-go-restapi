@@ -71,4 +71,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: 192.168.151.24:80/test-go-restapi/nobtest:latest
+          tags: nob-harbor.ddo.jp/test-go-restapi/nobtest:latest
