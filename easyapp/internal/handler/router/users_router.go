@@ -1,7 +1,6 @@
 package router
 
 import (
-	"database/sql"
 	"net/http"
 
 	"github.com/nob-islan/test-go-restapi/internal/handler"
@@ -10,16 +9,16 @@ import (
 )
 
 type usersRouter struct {
-	db *sql.DB
+	//db *sql.DB
 }
 
-func NewUsersRouter(db *sql.DB) Router {
-	return &usersRouter{db: db}
+func NewUsersRouter() Router {
+	return &usersRouter{}
 }
 
 func (r *usersRouter) SetRouting(m *http.ServeMux) *http.ServeMux {
 
-	handler := handler.NewUsersHandler(usecase.NewUsersUsecase(repository.NewUsersRepository(r.db)))
+	handler := handler.NewUsersHandler(usecase.NewUsersUsecase(repository.NewUsersRepository()))
 
 	m.HandleFunc(basePath+"/users", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {

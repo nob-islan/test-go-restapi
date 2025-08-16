@@ -6,7 +6,6 @@ import (
 
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/nob-islan/test-go-restapi/internal/domain"
-	"github.com/nob-islan/test-go-restapi/internal/infrastructure/repository/test/util"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -35,11 +34,11 @@ func Test_UserinfoRepository_SelectByName(t *testing.T) {
 		t.Run(testcase.name, func(t *testing.T) {
 
 			// テストデータベースおよびrepository初期化
-			db := util.ConnectTestDB(t, "users")
-			r := NewUsersRepository(db)
+			// db := util.ConnectTestDB(t, "users")
+			r := NewUsersRepository()
 
-			// 事前セットアップ
-			testcase.setup(db)
+			// // 事前セットアップ
+			// testcase.setup(db)
 
 			// repositoryの実行
 			result := r.SelectByName(testcase.queryParam)

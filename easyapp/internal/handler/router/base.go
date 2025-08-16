@@ -2,8 +2,6 @@ package router
 
 import (
 	"net/http"
-
-	"github.com/nob-islan/test-go-restapi/internal/infrastructure"
 )
 
 // routerのインターフェースです。
@@ -17,14 +15,14 @@ const basePath string = "/api/v1"
 // ルーティングを設定します。
 func Routing() *http.ServeMux {
 
-	// データベースに接続
-	db := infrastructure.ConnectDB()
+	// // データベースに接続
+	// db := infrastructure.ConnectDB()
 
 	// 各handlerに紐づくルーティングを設定
 	m := http.NewServeMux()
 
 	// ユーザ情報
-	m = NewUsersRouter(db).SetRouting(m)
+	m = NewUsersRouter().SetRouting(m)
 
 	return m
 }
