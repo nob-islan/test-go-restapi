@@ -23,3 +23,22 @@ jobs:
         with:
           name: Go-test-coverage
           path: ${{ env.module }}/coverage.html
+  build:
+    runs-on: ubuntu-latest
+    env:
+      module: easyapp
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+      - name: Build
+        run: |
+          cd ${module}
+          go build cmd/main.go
+      - name: Upload Go build results
+        uses: actions/upload-artifact@v4
+        with:
+          name: Go-module-bin
+          path: ${{ env.module }}/main
