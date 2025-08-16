@@ -18,9 +18,8 @@ jobs:
           gotestsum --junitfile report.xml -- -coverprofile=coverage.txt ./internal/handler ./internal/usecase ./internal/infrastructure/repository
           go tool cover -html=coverage.txt -o coverage.html
           go tool cover -func=coverage.txt
-          ls -l
       - name: Upload Go test results
         uses: actions/upload-artifact@v4
         with:
           name: Go-test-coverage
-          path: ${module}/coverage.html
+          path: ${{ env.module }}/coverage.html
