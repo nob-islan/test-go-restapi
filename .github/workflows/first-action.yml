@@ -55,10 +55,14 @@ jobs:
       attestations: write
       id-token: write
     steps:
+      - name: Allow insecure registry
+        run: |
+          echo '{ "insecure-registries":["192.168.151.24:80"] }' | sudo tee /etc/docker/daemon.json
+          sudo systemctl restart docker
       - name: Log in to Docker Hub
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
-          registry: http://192.168.151.24:80
+          registry: 192.168.151.24:80
           username: 'robot$nobo'
           password: 'Lm7wPWAtbt5qlc0kpLKtGsk6kMevjhmY' #TODO secretに格納
       - name: Download go module bin
