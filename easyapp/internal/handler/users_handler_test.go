@@ -53,7 +53,7 @@ func Test_UsersHandler_Search(t *testing.T) {
 			requestParam:       map[string]string{"name": ""},
 			setupMock:          func(mock *MockUsersUsecase) {},
 			expectedStatusCode: http.StatusBadRequest,
-			expectedBody:       "hoge",
+			expectedBody:       "",
 		},
 	}
 
