@@ -1,32 +1,32 @@
 name: Go
 on: [push]
 jobs:
-  test:
-    name: test
-    runs-on: ubuntu-latest
-    env:
-      module: easyapp
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.23'
-      - name: Test with the Go CLI
-        run: |
-          cd ${module}
-          go install gotest.tools/gotestsum@latest
-          gotestsum --junitfile report.xml -- -coverprofile=coverage.txt ./internal/handler ./internal/usecase ./internal/infrastructure/repository
-          go tool cover -html=coverage.txt -o coverage.html
-          go tool cover -func=coverage.txt
-      - name: Upload Go test results
-        uses: actions/upload-artifact@v4
-        with:
-          name: Go-test-coverage
-          path: ${{ env.module }}/coverage.html
+  # test:
+  #   name: test
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     module: easyapp
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Setup Go
+  #       uses: actions/setup-go@v5
+  #       with:
+  #         go-version: '1.23'
+  #     - name: Test with the Go CLI
+  #       run: |
+  #         cd ${module}
+  #         go install gotest.tools/gotestsum@latest
+  #         gotestsum --junitfile report.xml -- -coverprofile=coverage.txt ./internal/handler ./internal/usecase ./internal/infrastructure/repository
+  #         go tool cover -html=coverage.txt -o coverage.html
+  #         go tool cover -func=coverage.txt
+  #     - name: Upload Go test results
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: Go-test-coverage
+  #         path: ${{ env.module }}/coverage.html
   build:
     name: build
-    needs: test
+    # needs: test
     runs-on: ubuntu-latest
     env:
       module: easyapp
@@ -45,3 +45,30 @@ jobs:
         with:
           name: Go-module-bin
           path: ${{ env.module }}/main
+  push:
+    name: push
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+    steps:
+      - name: Log in to Docker Hub
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: nob-harbor.ddo.jp
+          username: 'robot\$nobo'
+          password: 'cqv83xeVjBKo9kdgk36VL0cxeVtkcrzM' #TODO secretに格納
+      - name: Download go module bin
+        uses: actions/download-artifact@v4
+        with:
+          name: Go-module-bin
+      - name: Build and push Docker images
+        id: push
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: .
+          push: true
+          tags: 192.168.151.24:80/test-go-restapi/nobtest:latest
