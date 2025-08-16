@@ -1,29 +1,29 @@
 name: Go
 on: [push]
 jobs:
-  # test:
-  #   name: test
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     module: easyapp
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Setup Go
-  #       uses: actions/setup-go@v5
-  #       with:
-  #         go-version: '1.23'
-  #     - name: Test with the Go CLI
-  #       run: |
-  #         cd ${module}
-  #         go install gotest.tools/gotestsum@latest
-  #         gotestsum --junitfile report.xml -- -coverprofile=coverage.txt ./internal/handler ./internal/usecase ./internal/infrastructure/repository
-  #         go tool cover -html=coverage.txt -o coverage.html
-  #         go tool cover -func=coverage.txt
-  #     - name: Upload Go test results
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: Go-test-coverage
-  #         path: ${{ env.module }}/coverage.html
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    env:
+      module: easyapp
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+      - name: Test with the Go CLI
+        run: |
+          cd ${module}
+          go install gotest.tools/gotestsum@latest
+          gotestsum --junitfile report.xml -- -coverprofile=coverage.txt ./internal/handler ./internal/usecase ./internal/infrastructure/repository
+          go tool cover -html=coverage.txt -o coverage.html
+          go tool cover -func=coverage.txt
+      - name: Upload Go test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: Go-test-coverage
+          path: ${{ env.module }}/coverage.html
   build:
     name: build
     # needs: test
@@ -61,7 +61,7 @@ jobs:
         with:
           registry: nob-harbor.ddo.jp
           username: 'robot$nobo'
-          password: 'cqv83xeVjBKo9kdgk36VL0cxeVtkcrzM' #TODO secretに格納
+          password: 'cqv83xeVjBKo9kdgk36VL0cxeVtkcrzM'
       - name: Download go module bin
         uses: actions/download-artifact@v4
         with:
@@ -72,6 +72,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: nob-harbor.ddo.jp/test-go-restapi/nobtest:latest
-# TODO buildとpushを分ける意味が薄いのでまとめる
-# TODO イメージタグの付け方調査
+          tags: nob-harbor.ddo.jp/test-go-restapi/nobtest:stable
