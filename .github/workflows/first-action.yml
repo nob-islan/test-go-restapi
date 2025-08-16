@@ -2,6 +2,7 @@ name: Go
 on: [push]
 jobs:
   test:
+    name: test
     runs-on: ubuntu-latest
     env:
       module: easyapp
@@ -24,6 +25,8 @@ jobs:
           name: Go-test-coverage
           path: ${{ env.module }}/coverage.html
   build:
+    name: build
+    needs: test
     runs-on: ubuntu-latest
     env:
       module: easyapp
