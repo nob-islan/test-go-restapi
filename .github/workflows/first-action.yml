@@ -66,10 +66,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: Go-module-bin
-      - name: check dir # TODO 後で消す
-        run: | 
-          pwd
-          ls -l
       - name: Build and push Docker images
         id: push
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
@@ -77,3 +73,5 @@ jobs:
           context: .
           push: true
           tags: nob-harbor.ddo.jp/test-go-restapi/nobtest:latest
+# TODO buildとpushを分ける意味が薄いのでまとめる
+# TODO イメージタグの付け方調査
